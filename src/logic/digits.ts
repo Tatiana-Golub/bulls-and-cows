@@ -1,4 +1,4 @@
-const ALPHABET = "0123456789abcdef";
+export const ALPHABET = "0123456789abcdef";
 const MIN_BASE = 2;
 const MAX_BASE = ALPHABET.length;
 
