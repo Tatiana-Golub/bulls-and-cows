@@ -5,7 +5,7 @@
     "build": "tsc",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "prepare": "husky"
   },
   "lint-staged": {
