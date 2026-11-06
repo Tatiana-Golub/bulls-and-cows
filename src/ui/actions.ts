@@ -1,6 +1,7 @@
+import { addAttempt, startGame, type Settings } from "../logic/game.js";
+import { entryFromGame, recordScore } from "../logic/scores.js";
 import { setBase, setLength } from "../logic/settings.js";
 import type { AppState } from "./state.js";
-import { addAttempt, startGame, type GameState, type Settings } from "../logic/game.js";
 
 const withSettings = (state: AppState, settings: Settings): AppState =>
   settings === state.settings ? state : { ...state, settings };
@@ -20,10 +21,19 @@ export const beginRound = (state: AppState, secret: string, now: number): AppSta
     ? { ...state, screen: "game", game: startGame(state.settings, secret, now) }
     : state;
 
-const withGame = (state: AppState, game: GameState): AppState =>
-  game === state.game ? state : { ...state, game };
+export const submitGuess = (state: AppState, guess: string, now: number): AppState => {
+  if (state.screen !== "game" || state.game === null) return state;
 
-export const submitGuess = (state: AppState, guess: string, now: number): AppState =>
-  state.screen === "game" && state.game !== null
-    ? withGame(state, addAttempt(state.game, guess, now))
-    : state;
+  const game = addAttempt(state.game, guess, now);
+  if (game === state.game) return state;
+
+  const scores =
+    game.status === "won"
+      ? recordScore(state.scores, game.settings, entryFromGame(game))
+      : state.scores;
+
+  return { ...state, game, scores };
+};
+
+export const newGame = (state: AppState): AppState =>
+  state.screen === "game" ? { ...state, screen: "settings", game: null } : state;

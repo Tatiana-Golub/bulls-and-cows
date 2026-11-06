@@ -4,6 +4,7 @@ import { BASES, isLengthAvailable, MAX_LENGTH, MIN_LENGTH } from "../logic/setti
 import { beginRound, chooseBase, chooseLength } from "./actions.js";
 import { h } from "./dom.js";
 import type { AppState, Update } from "./state.js";
+import { scoresView } from "./scoresView.js";
 
 const LENGTHS = Array.from(
   { length: MAX_LENGTH - MIN_LENGTH + 1 },
@@ -77,5 +78,6 @@ export const settingsView = (state: AppState, update: Update): Node => {
       { className: "start", attrs: { type: "button" }, on: { click: startRound } },
       "Start",
     ),
+    scoresView(state.scores, state.settings),
   );
 };

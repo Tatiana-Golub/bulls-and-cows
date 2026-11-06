@@ -1,10 +1,11 @@
 import { createDigitValidator } from "../logic/digits.js";
 import type { Attempt, GameState } from "../logic/game.js";
 import { isValidGuess } from "../logic/guess.js";
-import { submitGuess } from "./actions.js";
 import { h } from "./dom.js";
 import { formatDuration } from "./format.js";
 import type { AppState, Update } from "./state.js";
+import { newGame, submitGuess } from "./actions.js";
+import { scoresView } from "./scoresView.js";
 
 const elapsed = (game: GameState, now: number): number =>
   (game.finishedAt ?? now) - game.startedAt;
@@ -121,5 +122,15 @@ export const gameView = (state: AppState, game: GameState, update: Update): Node
         )
       : guessForm(state, game, update),
     h("ol", { className: "history" }, game.history.map(historyItem)),
+    won && scoresView(state.scores, game.settings),
+    h(
+      "button",
+      {
+        className: won ? "start" : "secondary",
+        attrs: { type: "button" },
+        on: { click: () => update(newGame) },
+      },
+      "New game",
+    ),
   );
 };
