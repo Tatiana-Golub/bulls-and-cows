@@ -18,6 +18,25 @@ const historyItem = ({ guess, bulls, cows }: Attempt): HTMLLIElement =>
     h("span", { className: "result" }, `${bulls} bulls, ${cows} cows`),
   );
 
+const historyList = (game: GameState): HTMLOListElement => {
+  const list = h(
+    "ol",
+    { className: "history", attrs: { "aria-label": "Attempt history" } },
+    game.history.map(historyItem),
+  );
+
+  const scrollToEnd = (): void => {
+    list.scrollTop = list.scrollHeight;
+  };
+
+  requestAnimationFrame(() => {
+    scrollToEnd();
+    requestAnimationFrame(scrollToEnd);
+  });
+
+  return list;
+};
+
 const timerView = (game: GameState): HTMLSpanElement => {
   const timer = h(
     "span",
@@ -121,7 +140,7 @@ export const gameView = (state: AppState, game: GameState, update: Update): Node
           `Solved in ${game.history.length} attempts, ${formatDuration(elapsed(game, 0))}!`,
         )
       : guessForm(state, game, update),
-    h("ol", { className: "history" }, game.history.map(historyItem)),
+    historyList(game),
     won && scoresView(state.scores, game.settings),
     h(
       "button",

@@ -3,7 +3,14 @@ body {
   margin: 0;
 }
 
+h2 {
+  text-align: center;
+}
+
 .app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 28rem;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -44,6 +51,7 @@ body {
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
+  justify-content: center;
 }
 
 .guess-input {
@@ -56,14 +64,22 @@ body {
 }
 
 .message {
-  flex-basis: 100%;
   margin: 0;
   color: #b91c1c;
   min-height: 1.25rem;
 }
 
 .history {
-  padding-left: 1.5rem;
+  margin: 1rem 0 0;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  max-height: min(40vh, 16rem);
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+}
+
+.history:empty {
+  display: none;
 }
 
 .attempt {
@@ -75,4 +91,26 @@ body {
 .win {
   font-weight: bold;
   color: #15803d;
+}
+
+.secondary {
+  margin-top: 1rem;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+}
+
+.scores {
+  margin-bottom: 30px;
+}
+
+.score-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.score-table th,
+.score-table td {
+  padding: 0.25rem 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
 }
