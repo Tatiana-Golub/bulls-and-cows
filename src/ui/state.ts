@@ -1,5 +1,6 @@
 import type { GameState, Settings } from "../logic/game.js";
 import type { HighScores } from "../logic/scores.js";
+import type { Store } from "./store.js";
 
 export type AppState = {
   readonly screen: "settings" | "game";
@@ -7,6 +8,8 @@ export type AppState = {
   readonly game: GameState | null;
   readonly scores: HighScores;
 };
+
+export type Update = Store<AppState>["update"];
 
 export const initialState: AppState = {
   screen: "settings",
