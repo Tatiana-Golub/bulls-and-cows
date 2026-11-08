@@ -3,8 +3,10 @@
 ```
 src/logic/   pure functions, no DOM, no clock, no randomness of their own
 src/ui/      DOM code: views, actions (state transitions), store, helpers
-src/main.ts  the only place that touches localStorage, Date.now and Math.random defaults
+src/main.ts  entry point: loads and saves scores, mounts the app
 ```
+
+Impure calls (`Math.random`, `Date.now`, `localStorage`) are only in the UI layer: `main.ts`, `settingsView.ts` and `gameView.ts`. `src/logic/` never calls them directly.
 
 - All game logic is plain functions over plain readonly objects. There are no classes (ESLint forbids `ClassDeclaration`) and `no-param-reassign` is on.
 - Impure inputs are passed in as parameters: `generateSecret(length, base, random)`, `startGame(settings, secret, now)`, `addAttempt(state, guess, now)`, `loadScores(storage)`. Tests pass fixed values.
